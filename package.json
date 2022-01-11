@@ -1,6 +1,5 @@
 {
-  "name": "widget-record-reader",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "a vika widget",
   "engines": {
     "node": ">=8.x"

@@ -1,9 +1,8 @@
 import { useActiveCell, useCloudStorage, useRecord } from '@vikadata/widget-sdk';
 import React from 'react';
 
-function getURL(data){
-  const APIToken = "G2RBZ-XOGW5-4PAIK-QMZF7-NZUR5-V3F75"
-  return  `https://apis.map.qq.com/tools/poimarker?type=0&marker=coord:${data.lat},${data.lng};title:${data.title};addr:&key=${APIToken}&referer=vika-widget`
+function getURL(data, devKey){
+  return  `https://apis.map.qq.com/tools/poimarker?type=0&marker=coord:${data.lat},${data.lng};title:${data.title};addr:&key=${devKey}&referer=vika-widget`
 }
 
 function getIframe(mapUrl){
@@ -26,6 +25,9 @@ export const Map: React.FC = () => {
 
   const [markerTitleFieldId] = useCloudStorage<string>('markerTitle')
 
+  // 腾讯地图开发密钥
+  const [devKey] = useCloudStorage<string>('devKey', "")
+
   console.log("activeCell", activeCell)
   console.log("activeRecord", activeRecord)
   
@@ -38,12 +40,12 @@ export const Map: React.FC = () => {
 
     localStorage.setItem("widgetRecordReader", JSON.stringify({lat, lng, title}))
   
-    const mapUrl = getURL(mapData)
+    const mapUrl = getURL(mapData, devKey)
     console.log({mapData, mapUrl})
     
     return getIframe(mapUrl);
   }else if(localData){
-    const mapUrl = getURL( JSON.parse(localData) )
+    const mapUrl = getURL( JSON.parse(localData), devKey )
     return getIframe(mapUrl);
   }
 
